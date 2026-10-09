@@ -1,0 +1,29 @@
+services:
+
+  app:
+    build: .
+    container_name: ai_hr_attrition_analytics
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mysql
+    volumes:
+      - ./datasets:/app/datasets
+      - ./reports:/app/reports
+
+  mysql:
+    image: mysql:8.4
+    container_name: ai_hr_attrition_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ai_hr_attrition_analytics
+      TZ: Asia/Kolkata
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
+  
